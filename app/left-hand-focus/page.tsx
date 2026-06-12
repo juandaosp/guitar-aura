@@ -1,6 +1,5 @@
-"use client";
-import {LoopSequence} from "@/components/loop-sequence/";
-import { SequenceDisplay } from "@/components/sequence-display/sequence-display";
+import { LoopSequence } from '@/components/loop-sequence/'
+import { SequenceDisplay } from '@/components/sequence-display/sequence-display'
 
 export default function LeftHandFocus() {
   return (
@@ -8,5 +7,5 @@ export default function LeftHandFocus() {
       <LoopSequence />
       <SequenceDisplay />
     </section>
-  );
+  )
 }
