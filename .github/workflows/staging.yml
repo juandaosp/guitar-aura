@@ -1,0 +1,33 @@
+name: Deployment - Staging Environment
+
+on:
+  push:
+    branches: [stg]
+
+jobs:
+  build-and-deploy-stg:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "26"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Architecture Check
+        run: npm run architecture:check
+
+      - name: Run Linter
+        run: npm run lint
+
+      - name: Run Unit/Integration Tests
+        run: npm run test
+
+      - name: Build Application
+        run: npm run build

@@ -12,21 +12,17 @@ export const Sequence = ({ sequence }: SequenceProps) => {
                     const lastIndex = sequence.length - 1;
                     const isLastElement = sequence[lastIndex]?.id === sequence[index].id;
                     return (
-                        <>
-                            <span className="text-8xl" key={`sequence-${s}-${crypto.randomUUID()}`}>
+                        <div key={s.id} className="flex justify-center items-center gap-2">
+                            <span className="text-8xl">
                                 {sequence[index].name}
                             </span>
 
                             {!isLastElement &&
                                 <span className='w-12 h-1.5 dark:bg-muted-foreground bg-muted'></span>
                             }
-                        </>
+                        </div>
                     )
-                }
-
-                )}
-
-
+                })}
         </section>
     )
 }

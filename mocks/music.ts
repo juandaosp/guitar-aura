@@ -97,7 +97,7 @@ export const MOCK_POPULATED_CHORDS: PopulatedChord[] = MOCK_CHORDS.map((chord) =
       throw new Error(`Geometry not found for voicing: ${voicing.id}`);
     }
 
-    const { geometryId, ...restVoicing } = voicing;
+    const { ...restVoicing } = voicing;
 
     return {
       ...restVoicing,
