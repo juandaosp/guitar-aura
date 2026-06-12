@@ -48,7 +48,7 @@
     "*.{js,ts,tsx}": [
       "eslint --fix",
       "npm run architecture:check",
-      "vitest run --related --passWithNoTests"
+      "vitest related --run --passWithNoTests"
     ]
   }
 }
