@@ -1,0 +1,17 @@
+{
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "entry": ["components/**/*.test.{ts,tsx}"],
+  "next": {
+    "entry": [
+      "next.config.{js,ts,mjs,cjs}",
+      "app/**/page.{js,jsx,ts,tsx}",
+      "app/**/layout.{js,jsx,ts,tsx}",
+      "app/**/loading.{js,jsx,ts,tsx}",
+      "app/**/error.{js,jsx,ts,tsx}",
+      "app/**/not-found.{js,jsx,ts,tsx}"
+    ]
+  },
+  "ignoreDependencies": ["lint-staged"],
+  "ignoreExportsUsedInFile": true,
+  "ignore": ["components/ui/**"]
+}
