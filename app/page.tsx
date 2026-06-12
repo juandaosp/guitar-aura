@@ -3,7 +3,7 @@
 export default function Home() {
   return (
     <section className="flex flex-col gap-12">
-      Home
+      Home Page
     </section>
   );
 }
