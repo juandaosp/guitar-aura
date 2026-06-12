@@ -1,5 +1,5 @@
 import { Chord, ChordVoicing, ChordGeometry } from '@/types/domain.types';
-import type { MusicStore } from './types';
+import type { MusicStore, SequenceItem } from './types';
 
 export interface PopulatedVoicing extends Omit<ChordVoicing, "geometryId"> {
     geometry: ChordGeometry;
@@ -13,10 +13,10 @@ export interface PopulatedSequenceStep extends PopulatedChord {
     selectedVoicing: PopulatedVoicing;
 }
 
-let lastSequence: any = null;
-let lastChords: any = null;
-let lastVoicings: any = null;
-let lastGeometries: any = null;
+let lastSequence: SequenceItem[] | null = null;
+let lastChords: Chord[] | null = null;
+let lastVoicings: ChordVoicing[] | null = null;
+let lastGeometries: ChordGeometry[] | null = null;
 let cachedPopulatedResult: PopulatedSequenceStep[] = [];
 
 export const selectPopulatedSequence = (state: MusicStore): PopulatedSequenceStep[] => {

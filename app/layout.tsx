@@ -8,8 +8,8 @@ import { SettingsBar } from "@/components/nav/settings-bar";
 
 const geistHeading = Geist({ subsets: ["latin"], variable: "--font-heading" });
 const raleway = Raleway({ subsets: ["latin"], variable: "--font-sans" });
-
 const appName = "GUITAR AURA";
+
 export default function RootLayout({
   children,
 }: {

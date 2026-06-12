@@ -56,7 +56,7 @@ export const LoopSequence = () => {
       </div>
 
       <div className="flex flex-wrap justify-center lg:justify-start gap-6">
-        {sequence.map((step: PopulatedSequenceStep, index) => (
+        {sequence.map((step: PopulatedSequenceStep) => (
           <Chord
             key={`${step.id}`}
             sequenceStep={step}
