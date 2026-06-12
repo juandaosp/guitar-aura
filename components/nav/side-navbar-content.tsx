@@ -1,7 +1,7 @@
 import type { NavGroup } from "./types"
 import { SidebarContent, SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuItem, SidebarMenuButton, } from "@/components/ui/sidebar"
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { ICON_MAP } from "./side-navbar";
+import { ICON_MAP } from "./constants";
 import Link from "next/link";
 
 interface SideNavbarContentProps {

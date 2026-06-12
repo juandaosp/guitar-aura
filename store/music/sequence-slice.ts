@@ -15,12 +15,10 @@ export const loopSequenceSlice: StateCreator<MusicStore, [], [], LoopSequenceSta
         }
     }),
     removeChordFromSequence: (itemId: string) => set((state: MusicStore) => {
-        console.log("removing item:", itemId, state.sequence)
-        const filteredSequence = state.sequence.filter((item) => item.chordId !== itemId);
-        console.log("filtered sequence", filteredSequence)
+        const filteredSequence = state.sequence.filter((item) => item.id !== itemId);
         return { sequence: filteredSequence };
-
     }),
+
     updateVoicingInStep: (itemId: string, newVoicingId: string) => set((state) => ({
         sequence: state.sequence.map((item) => item.id === itemId ? { ...item, voicingId: newVoicingId } : item)
     })),

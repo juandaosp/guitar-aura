@@ -47,6 +47,7 @@ export const selectPopulatedSequence = (state: MusicStore): PopulatedSequenceSte
 
         return {
             ...chord,
+            id: item.id,
             voicings: [],
             selectedVoicing: {
                 ...currentVoicing,

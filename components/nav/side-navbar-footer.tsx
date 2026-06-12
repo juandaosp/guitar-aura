@@ -1,5 +1,5 @@
 import { SidebarFooter, SidebarMenu, SidebarMenuItem, SidebarMenuButton } from "@/components/ui/sidebar"
-import { ICON_MAP } from "./side-navbar"
+import { ICON_MAP } from "./constants"
 
 export const SideNavbarFooter = () => {
     return (
