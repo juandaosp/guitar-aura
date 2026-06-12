@@ -10,27 +10,26 @@ jobs:
   validate-or-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: "26"
           cache: "npm"
 
-      - name: Install Dependencies
+      - name: Install dependencies
         run: npm ci
 
-      - name: Architecture Guard
+      - name: Run Architecture Check
         run: npm run architecture:check
 
-      - name: Next.js Build Verification
-        run: npm run build
+      - name: Run Linter
+        run: npm run lint
 
-      # Este paso SOLO se ejecuta si se hace push a main (es decir, el PR fue aprobado y mergeado)
-      - name: Deploy to Production
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-        run: |
-          echo "🔥 DESPLEGANDO EN PRODUCCIÓN! El código es seguro y estable."
-          # Aquí iría tu comando de despliegue de producción
+      - name: Run Unit/Integration Tests
+        run: npm run test
+
+      - name: Build Application
+        run: npm run build
