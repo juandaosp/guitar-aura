@@ -1,19 +1,20 @@
-export enum TimerMode {
-    COUNTDOWN = "COUNTDOWN",
-    STOPWATCH = "STOPWATCH"
-}
-export enum TimerStatus {
-    IDLE = "IDLE",
-    RUNNING = "RUNNING",
-    PAUSED = "PAUSED"
-}
+export type TimerMode = 'countdown' | 'stopwatch'
 
-export interface TimerStore {
-    mode: TimerMode;
-    status: TimerStatus;
-    timeInSeconds: number;
+export interface TimerState {
+  // Core state
+  minutes: number | null
+  seconds: number | null
+  mode: TimerMode
+  isRunning: boolean
+  initialMinutes: number | null
+  initialSeconds: number | null
 
-    updateTime: (timeInSeconds: number) => void;
-    updateMode: (mode: TimerMode) => void;
-    updateStatus: (status: TimerStatus) => void;
+  // Actions
+  setMinutes: (min: number | null) => void
+  setSeconds: (sec: number | null) => void
+  setMode: (mode: TimerMode) => void
+  startTimer: () => void
+  pauseTimer: () => void
+  resetTimer: () => void
+  tick: () => void
 }

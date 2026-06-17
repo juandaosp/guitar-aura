@@ -1,0 +1,100 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../lib/generated/prisma"
+  engineType = "binary"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum NoteName {
+  A
+  B
+  C
+  D
+  E
+  F
+  G
+}
+
+enum Accidental {
+  natural
+  sharp
+  flat
+  double_sharp @map("double-sharp")
+  double_flat  @map("double-flat")
+}
+
+enum ChordQuality {
+  major
+  minor
+  diminished
+  augmented
+  maj7
+  min7
+  dominant7
+  sus2
+  sus4
+}
+
+model Geometry {
+  id               String    @id @default(uuid()) @db.Uuid
+  frets            String[]  // Array nativo VARCHAR(2)[6]
+  fingers          Int[]     // Array nativo INTEGER[6] (Nullable por omisión en Prisma si está vacío)
+  barreFret        Int?      @map("barre_fret")
+  barreStartString Int?      @map("barre_start_string")
+  barreEndString   Int?      @map("barre_end_string")
+  voicings         Voicing[] // Relación inversa
+
+  @@map("geometries")
+}
+
+model Chord {
+  id                 String       @id @default(uuid()) @db.Uuid
+  name               String       @unique @db.VarChar(50)
+  label              String       @db.VarChar(100)
+  rootNoteName       NoteName     @map("root_note_name")
+  rootNoteAccidental Accidental   @map("root_note_accidental")
+  rootNoteOctave     Int?         @map("root_note_octave")
+  quality            ChordQuality
+  bassNoteName       NoteName?    @map("bass_note_name")
+  bassNoteAccidental Accidental?  @map("bass_note_accidental")
+  tags               String[]     @default([])
+  voicings           Voicing[]    // Relación inversa
+
+  @@map("chords")
+}
+
+model Voicing {
+  id         String   @id @default(uuid()) @db.Uuid
+  chordId    String   @map("chord_id") @db.Uuid
+  geometryId String   @map("geometry_id") @db.Uuid
+  name       String   @db.VarChar(100)
+  baseFret   Int      @default(1) @map("base_fret")
+  difficulty Int      // Controlarás el rango 1-5 desde la lógica de TS
+
+  // Relaciones explícitas
+  chord    Chord    @relation(fields: [chordId], references: [id], onDelete: Cascade)
+  geometry Geometry @relation(fields: [geometryId], references: [id], onDelete: Restrict)
+
+  @@map("voicings")
+}
+
+model PracticeLog {
+  id                String   @id @default(uuid()) @db.Uuid
+  mode              String   @db.VarChar(20) // 'countdown' | 'stopwatch'
+  durationSeconds   Int      @map("duration_seconds")
+  numberOfChanges   Int      @map("number_of_changes")
+  perceivedAccuracy Int      @map("perceived_accuracy")
+  bpm               Int?
+  chordsPracticed   Json     @map("chords_practiced") // Bloque JSONB para congelar la sesión
+  createdAt         DateTime @default(now()) @map("created_at") @db.Timestamptz
+
+  @@map("practice_logs")
+}

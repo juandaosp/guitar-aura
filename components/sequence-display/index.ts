@@ -1,3 +1,3 @@
-import {SequenceDisplay} from "./sequence-display";
+import { SequenceDisplay } from './sequence-display'
 
-export { SequenceDisplay };
+export { SequenceDisplay }

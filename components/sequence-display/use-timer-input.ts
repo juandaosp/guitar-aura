@@ -1,53 +1,54 @@
-import { useState, useEffect, useRef } from "react";
+'use client'
+
+import * as React from 'react'
+import { useState, useEffect } from 'react'
 
 interface UseTimerInputProps {
-  value: number | null;
-  setVal: (val: number) => void;
+  globalValue: number | null
+  setGlobalValue: (val: number | null) => void
 }
 
-interface UseTimerInputReturn {
-  inputRef: React.RefObject<HTMLInputElement | null>;
-  localValue: string;
-  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleBlur: () => void;
-}
+export const useTimerInput = ({
+  globalValue,
+  setGlobalValue,
+}: UseTimerInputProps) => {
+  const inputRef = React.useRef<HTMLInputElement | null>(null)
 
-export const useTimerInput = ({ value, setVal }: UseTimerInputProps): UseTimerInputReturn => {
-  const inputRef = useRef<HTMLInputElement>(null);
-  
-  // Estado local para la edición fluida del texto
-  const [localValue, setLocalValue] = useState(
-    value ? String(value).padStart(2, "0") : ""
-  );
+  const formatValue = (val: number | null): string => {
+    if (val === null) return ''
+    return String(val).padStart(2, '0')
+  }
 
-  useEffect(() => {
-    if (document.activeElement === inputRef.current) return;
-    setLocalValue(value !== null ? String(value).padStart(2, "0") : "");
-  }, [value]);
+  const [localValue, setLocalValue] = useState<string>(formatValue(globalValue))
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let val = e.target.value.replace(/\D/g, "").slice(0, 2);
+    const cleanValue = e.target.value.replace(/\D/g, '')
 
-    if (val !== "" && parseInt(val, 10) > 59) {
-      val = "59";
+    if (cleanValue.length <= 2) {
+      setLocalValue(cleanValue)
     }
-
-    setLocalValue(val);
-    const numValue = val === "" ? 0 : parseInt(val, 10);
-    setVal(numValue);
-  };
+  }
 
   const handleBlur = () => {
-    const padded = localValue.padStart(2, "0");
-    setLocalValue(padded);
-    setVal(parseInt(padded, 10));
-  };
+    if (localValue === '') {
+      setGlobalValue(null)
+      return
+    }
 
-  
+    const parsed = parseInt(localValue, 10)
+    if (!isNaN(parsed)) {
+      setGlobalValue(parsed)
+      setLocalValue(String(parsed).padStart(2, '0'))
+    } else {
+      setGlobalValue(null)
+      setLocalValue('')
+    }
+  }
+
   return {
     inputRef,
     localValue,
     handleChange,
     handleBlur,
-  };
-};
+  }
+}

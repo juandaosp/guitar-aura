@@ -1,14 +1,20 @@
-import { Input } from "@/components/ui/input";
-import { useTimerInput } from "./use-timer-input";
+// components/sequence-display/timer-input.tsx
+'use client'
+
+import { Input } from '@/components/ui/input'
+import { useTimerInput } from './use-timer-input'
 
 interface TimerInputProps {
-  value: number | null;
-  setVal: (val: number) => void;
+  value: number | null
+  isDisabled: boolean
+  setVal: (val: number | null) => void
 }
 
-export const TimerInput = ({ value, setVal }: TimerInputProps) => {
-  // Extraemos todo lo necesario de nuestro hook especializado
-  const { inputRef, localValue, handleChange, handleBlur } = useTimerInput({ value, setVal });
+export const TimerInput = ({ value, setVal, isDisabled }: TimerInputProps) => {
+  const { inputRef, localValue, handleChange, handleBlur } = useTimerInput({
+    globalValue: value,
+    setGlobalValue: setVal,
+  })
 
   return (
     <Input
@@ -16,10 +22,11 @@ export const TimerInput = ({ value, setVal }: TimerInputProps) => {
       value={localValue}
       onChange={handleChange}
       onBlur={handleBlur}
+      disabled={isDisabled}
       type="text"
       inputMode="numeric"
-      className="h-20 w-24 text-center text-4xl md:text-6xl/none font-light text-primary placeholder:text-primary/60 border-none dark:bg-card/60 tracking-wider"
+      className="text-primary placeholder:text-primary/60 flex h-12 w-16 items-center justify-center py-0 text-center text-4xl leading-none disabled:opacity-100 md:h-16 md:w-22 md:text-6xl xl:h-28 xl:w-34 xl:text-8xl"
       placeholder="00"
     />
-  );
-};
+  )
+}

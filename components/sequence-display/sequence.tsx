@@ -1,28 +1,36 @@
-import { PopulatedSequenceStep } from "@/store/music/selectors";
+// components/sequence-display/sequence.tsx
+'use client'
+
+import { PopulatedSequenceStep } from '@/store/music/selectors'
 
 interface SequenceProps {
-    sequence: PopulatedSequenceStep[];
+  sequence: PopulatedSequenceStep[]
 }
 
 export const Sequence = ({ sequence }: SequenceProps) => {
-    return (
-        <section className="flex justify-around items-center gap-2 flex-wrap">
-            {sequence.length &&
-                sequence.map((s: PopulatedSequenceStep, index: number) => {
-                    const lastIndex = sequence.length - 1;
-                    const isLastElement = sequence[lastIndex]?.id === sequence[index].id;
-                    return (
-                        <div key={s.id} className="flex justify-center items-center gap-2">
-                            <span className="text-8xl">
-                                {sequence[index].name}
-                            </span>
+  return (
+    <section className="flex flex-wrap items-center justify-around gap-2">
+      {/* ✅ Safe structural validation to avoid printing an accidental '0' onto the layout */}
+      {sequence.length > 0 &&
+        sequence.map((step: PopulatedSequenceStep, index: number) => {
+          // ✅ Highly optimized terminal element position checking via pure index evaluation
+          const isLastElement = index === sequence.length - 1
 
-                            {!isLastElement &&
-                                <span className='w-12 h-1.5 dark:bg-muted-foreground bg-muted'></span>
-                            }
-                        </div>
-                    )
-                })}
-        </section>
-    )
+          return (
+            <div
+              key={step.id}
+              className="flex items-center justify-center gap-2"
+            >
+              {/* ✅ Render the chord name directly from the iterated entity reference */}
+              <span className="font-heading text-8xl">{step.name}</span>
+
+              {/* Sequential visual horizontal divider spacer */}
+              {!isLastElement && (
+                <span className="dark:bg-muted-foreground bg-muted h-1.5 w-12 rounded-full"></span>
+              )}
+            </div>
+          )
+        })}
+    </section>
+  )
 }
